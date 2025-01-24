@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://drujv7ldo3kae"]
+
+[ext_resource type="Script" path="res://meteror.gd" id="1_t4kja"]
+[ext_resource type="Texture2D" uid="uid://d1tynxe61kpre" path="res://meteor.png" id="2_fusse"]
+[ext_resource type="AudioStream" uid="uid://c7vmg7e8rbr3c" path="res://global/meteor.mp3" id="3_76l6r"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_os26s"]
+radius = 27.0185
+
+[node name="Meteror" type="Area2D"]
+collision_layer = 2
+collision_mask = 9
+script = ExtResource("1_t4kja")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(336, 196)
+scale = Vector2(0.2375, 0.268211)
+texture = ExtResource("2_fusse")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(337, 198)
+shape = SubResource("CircleShape2D_os26s")
+
+[node name="meteor" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_76l6r")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

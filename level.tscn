@@ -1,0 +1,88 @@
+[gd_scene load_steps=9 format=3 uid="uid://b8d6kq725any8"]
+
+[ext_resource type="PackedScene" uid="uid://diea1drfbakdu" path="res://node_2d.tscn" id="1_83kcy"]
+[ext_resource type="Script" path="res://level.gd" id="1_r2nks"]
+[ext_resource type="Texture2D" uid="uid://dduukk6pb4vob" path="res://Game_background.png" id="2_rwui6"]
+[ext_resource type="PackedScene" uid="uid://rrxd8ig0lbl6" path="res://ui.tscn" id="4_4dy3j"]
+[ext_resource type="AudioStream" uid="uid://c7q3nrxh7elxo" path="res://global/InTheVoid.mp3" id="5_gopvv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1xlox"]
+size = Vector2(75, 755.375)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3k0i6"]
+size = Vector2(1380, 52)
+
+[sub_resource type="Environment" id="Environment_wle4r"]
+background_mode = 3
+ambient_light_source = 2
+glow_normalized = true
+fog_light_energy = 14.78
+fog_sun_scatter = 1.5
+fog_density = 0.024
+
+[node name="Level" type="Node2D"]
+position = Vector2(-1, 0)
+script = ExtResource("1_r2nks")
+
+[node name="BG" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(652, 363)
+scale = Vector2(1.02075, 1.06697)
+texture = ExtResource("2_rwui6")
+
+[node name="Player" parent="." instance=ExtResource("1_83kcy")]
+position = Vector2(648, 668)
+
+[node name="boarder" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="boarder"]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boarder/StaticBody2D"]
+position = Vector2(1308, 359)
+shape = SubResource("RectangleShape2D_1xlox")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="boarder/StaticBody2D"]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boarder/StaticBody2D/StaticBody2D"]
+position = Vector2(-30, 350)
+shape = SubResource("RectangleShape2D_1xlox")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="boarder/StaticBody2D/StaticBody2D"]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boarder/StaticBody2D/StaticBody2D/StaticBody2D"]
+position = Vector2(625, -22)
+shape = SubResource("RectangleShape2D_3k0i6")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="boarder/StaticBody2D/StaticBody2D/StaticBody2D"]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boarder/StaticBody2D/StaticBody2D/StaticBody2D/StaticBody2D"]
+position = Vector2(624, 750)
+shape = SubResource("RectangleShape2D_3k0i6")
+
+[node name="MeteorTimer" type="Timer" parent="."]
+wait_time = 0.166
+autostart = true
+
+[node name="Meterors" type="Node2D" parent="."]
+position = Vector2(-1, 5)
+rotation = -0.120428
+
+[node name="Lasers" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_wle4r")
+
+[node name="UI" parent="." instance=ExtResource("4_4dy3j")]
+
+[node name="game_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_gopvv")
+volume_db = 3.402
+autoplay = true
+
+[connection signal="laser" from="Player" to="." method="_on_player_laser"]
+[connection signal="timeout" from="MeteorTimer" to="." method="_on_meteor_timer_timeout"]

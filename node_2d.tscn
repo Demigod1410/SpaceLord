@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://diea1drfbakdu"]
+
+[ext_resource type="Script" path="res://node_2d.gd" id="1_62cgw"]
+[ext_resource type="Texture2D" uid="uid://etn7o2k7f1ks" path="res://spaceship1.png" id="2_oarfd"]
+[ext_resource type="AudioStream" uid="uid://bnyxtrkp7adxg" path="res://global/laser.mp3" id="3_0r7jb"]
+[ext_resource type="AudioStream" uid="uid://c8ub4qny2of71" path="res://global/explosion.mp3" id="4_p8t5i"]
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 6
+script = ExtResource("1_62cgw")
+
+[node name="Player2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(13.8099, -20.8972)
+scale = Vector2(0.352083, 0.358485)
+texture = ExtResource("2_oarfd")
+offset = Vector2(-38.1898, 56.3024)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-125.784, -87.1281)
+scale = Vector2(0.293371, 0.293371)
+polygon = PackedVector2Array(414, 204, 378, 274, 346, 274, 358, 312, 340, 348, 350, 370, 368, 382, 385, 379, 420, 401, 456, 377, 486, 377, 506, 360, 508, 334, 492, 307, 510, 273, 472, 273, 442, 203)
+
+[node name="LaserStPos" type="Marker2D" parent="."]
+position = Vector2(0, -41)
+
+[node name="LaserTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="LaserSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_0r7jb")
+
+[node name="Explosion" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_p8t5i")
+volume_db = -2.667
+
+[connection signal="timeout" from="LaserTimer" to="." method="_on_laser_timer_timeout"]
